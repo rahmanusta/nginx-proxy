@@ -11,10 +11,16 @@ build-nginx-proxy-test-debian:
 build-nginx-proxy-test-alpine:
 	docker build -f Dockerfile.alpine -t nginxproxy/nginx-proxy:test .
 
+build-nginx-proxy-test-arm-alpine:
+	docker build -f Dockerfile.arm.alpine -t nginxproxy/nginx-proxy:test .
+
 test-debian: build-webserver build-nginx-proxy-test-debian
 	test/pytest.sh
 
 test-alpine: build-webserver build-nginx-proxy-test-alpine
 	test/pytest.sh
 
-test: test-debian test-alpine
+test-arm-alpine: build-webserver build-nginx-proxy-test-arm-alpine
+	test/pytest.sh
+
+test: test-debian test-alpine test-arm-alpine
